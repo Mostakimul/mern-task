@@ -5,8 +5,8 @@
   "license": "MIT",
   "author": "Mostakimul Karim",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js",
+    "start": "node backend/index.js",
+    "dev": "nodemon backend/index.js",
     "pack:init": "yarn add bcryptjs && yarn add dotenv && yarn add mongoose && yarn add express && yarn add express-async-handler && yarn add jsonwebtoken",
     "pack:dev": "yarn add nodemon"
   },

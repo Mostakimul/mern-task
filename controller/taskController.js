@@ -1,12 +1,14 @@
 const asyncHandler = require('express-async-handler');
-
+const Task = require('../models/taskModel');
+const User = require('../models/userModel');
 /**
  * @desc    Get tasks
- * @route   GET /api/tasks/goals
+ * @route   GET /api/tasks/
  * @access  private
  */
 const getTasks = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Get tasks` });
+  const tasks = await Task.find({ userId: req.user.id });
+  res.status(200).json(tasks);
 });
 /**
  * @desc    Set task
@@ -19,7 +21,13 @@ const setTask = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('Please add a task!');
   }
-  res.status(201).json({ message: `POST task` });
+
+  const task = await Task.create({
+    task: req.body.task,
+    userId: req.user.id,
+  });
+
+  res.status(201).json(task);
 });
 /**
  * @desc    Update task
@@ -27,7 +35,31 @@ const setTask = asyncHandler(async (req, res) => {
  * @access  private
  */
 const updateTask = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Update task` });
+  const task = await Task.findById(req.params.id);
+
+  if (!task) {
+    res.status(400);
+    throw new Error('Task not found!');
+  }
+
+  // find the user
+  const user = await User.findById(req.user.id);
+  if (!user) {
+    res.status(401);
+    throw new Error('User not exists!');
+  }
+
+  // id matching with login user
+  if (task.userId.toString() !== user.id) {
+    res.status(401);
+    throw new Error('User is not authorized!');
+  }
+
+  const updatedTask = await Task.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+
+  res.status(200).json(updatedTask);
 });
 /**
  * @desc    DELETE task
@@ -35,7 +67,28 @@ const updateTask = asyncHandler(async (req, res) => {
  * @access  private
  */
 const deleteTask = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: `Delete task` });
+  const task = await Task.findById(req.params.id);
+
+  if (!task) {
+    res.status(400);
+    throw new Error('Task not found!');
+  }
+
+  // find the user
+  const user = await User.findById(req.user.id);
+  if (!user) {
+    res.status(401);
+    throw new Error('User not exists!');
+  }
+
+  // id matching with login user
+  if (task.userId.toString() !== user.id) {
+    res.status(401);
+    throw new Error('User is not authorized!');
+  }
+
+  await task.remove();
+  res.status(200).json({ id: req.params.id });
 });
 
 module.exports = {

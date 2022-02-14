@@ -14,6 +14,11 @@ const getTasks = asyncHandler(async (req, res) => {
  * @access  private
  */
 const setTask = asyncHandler(async (req, res) => {
+  // check if task field is available
+  if (!req.body.task) {
+    res.status(400);
+    throw new Error('Please add a task!');
+  }
   res.status(201).json({ message: `POST task` });
 });
 /**

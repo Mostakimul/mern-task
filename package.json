@@ -1,0 +1,22 @@
+{
+  "name": "mern-task",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "author": "Mostakimul Karim",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "pack:init": "yarn add bcryptjs && yarn add dotenv && yarn add mongoose && yarn add express && yarn add express-async-handler && yarn add jsonwebtoken",
+    "pack:dev": "yarn add nodemon"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.2",
+    "express-async-handler": "^1.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.1",
+    "nodemon": "^2.0.15"
+  }
+}

@@ -9,7 +9,8 @@
     "server": "nodemon backend/index.js",
     "pack:init": "yarn add bcryptjs && yarn add dotenv && yarn add mongoose && yarn add express && yarn add express-async-handler && yarn add jsonwebtoken && yarn add -D nodemon && yarn add -D concurrently",
     "client": "yarn --cwd frontend run start",
-    "dev": "concurrently \"yarn server\" \"yarn client\""
+    "dev": "concurrently \"yarn server\" \"yarn client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn add -cwd frontend && yarn build -cwd frontend"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
